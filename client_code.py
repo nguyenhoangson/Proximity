@@ -1,10 +1,7 @@
-from Wave import Wave
-from WaveGenerator import WaveGenerator as WaveGenerator
-import numpy as np
+# from Wave import Wave
+from WaveGenerator.WaveGenerator import WaveGenerator
 
-data = np.array([[1], [1]], dtype='int16')
-
-w = WaveGenerator().generate_from_wav_file("test1.wav")
+w = WaveGenerator().generate_from_wav_file("wav/test1.wav")
 
 print("Frame_rate: " + str(w.get_frame_rate()))
 
