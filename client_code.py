@@ -1,4 +1,4 @@
-from WaveGenerator.WaveGenerator import WaveGenerator, Wave
+from WaveGenerator.WaveGenerator import WaveGenerator
 from Spectrogram.Spectrogram import Spectrogram
 
 w = WaveGenerator().generate_from_wav_file("wav/test2.wav")

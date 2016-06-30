@@ -6,15 +6,15 @@ from scipy.io import wavfile
 class Wave:
 
     def __init__(self, frame_rate, data):
-        self.data = data # 2D numpy array 
-        self.nchannels = len(data[0])
+        self.data = data # numpy array 
+        self.nchannels = len(data.shape) # whether it is mono or stereo depending on the shape of the data
         self.frame_rate = frame_rate
         self.sample_width = data[0].dtype.itemsize # in bytes
         self.nframes = len(data)
         
     def get_data(self):
         return self.data
-
+    
     def get_nchannels(self):
         return self.nchannels
 
