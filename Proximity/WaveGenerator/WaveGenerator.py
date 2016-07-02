@@ -5,18 +5,14 @@ from scipy.io import wavfile
 # Wave class, it is simply just a data class
 class Wave:
 
-    def __init__(self, frame_rate, data):
-        self.data = data # numpy array 
-        self.nchannels = len(data.shape) # whether it is mono or stereo depending on the shape of the data
+    def __init__(self, frame_rate, data): 
         self.frame_rate = frame_rate
+        self.data = data # numpy array
         self.sample_width = data[0].dtype.itemsize # in bytes
         self.nframes = len(data)
-        
+         
     def get_data(self):
         return self.data
-    
-    def get_nchannels(self):
-        return self.nchannels
 
     def get_frame_rate(self):
         return self.frame_rate
@@ -30,13 +26,18 @@ class Wave:
 
 class WaveGenerator:
 
-    def generate_from_wav_file(self, file):
+    ''' 
+       | generate_from_wav_file() will always generate mono Wave,
+       | if file is stereo, it will convert to mono 
+    '''
+    def generate_mono_wave_from_wav_file(self, file):
         try:
             # Read .wav file
             frame_rate, data = wavfile.read(file)
 
-            print(frame_rate)
-            print(data)
+            # Convert data to mono, if it is stereo
+            data = convert_to_mono(data)
+            
             # Make Wave object
             wave = Wave(frame_rate, data)
 
@@ -45,3 +46,21 @@ class WaveGenerator:
         except Exception as e:
             print("Exception: " + str(e))
         
+
+
+# Helper functions
+''' 
+   | convert mono audio data to stereo audio data, if data is already mono, 
+   | then it will keep data and return 
+'''
+def convert_to_mono(data):
+
+    mono_wave = []
+
+    # Convert data into mono, if it is stereo
+    if(len(data.shape) == 1):
+        mono_wave = data
+    else:
+        mono_wave = np.mean(data, axis=1)
+        
+    return mono_wave
