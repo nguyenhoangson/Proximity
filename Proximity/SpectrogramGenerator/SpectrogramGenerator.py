@@ -19,22 +19,28 @@ class Spectrogram:
             else:
                 self.noverlap = noverlap
             
-            self.freq, self.times, self.spectrogram = signal.spectrogram(self.wave.get_data())
+            self.spectrogram = signal.spectrogram(x=self.wave.get_data(), fs=self.wave.get_frame_rate(), nperseg=nperseg, noverlap=noverlap)
 
         except Exception as e:
             print('Exception: ' + str(e))
 
     def show(self):
-        plt.pcolormesh(self.times, self.freq, self.spectrogram)
+
+        ''' 
+          | Show the spectrogram graphically
+        '''
+        plt.pcolormesh(self.spectrogram[1], self.spectrogram[0], self.spectrogram[2])
         plt.xlabel('Time [sec]')
         plt.ylabel('Frequency [Hz]')
         plt.show()
-    
+
+    def get_data(self):
+        return self.spectrogram
 
 class SpectrogramGenerator():
 
-    def generate_spectrogram(self, wave):
-        return Spectrogram(wave)
+    def generate_spectrogram(self, mono_wave):
+        return Spectrogram(mono_wave)
 
 
 
